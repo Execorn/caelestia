@@ -1,5 +1,25 @@
 # caelestia
 
+## Execorn's Fork of Caelestia Dotfiles
+
+This is a personal fork of the original [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) repository by **Execorn**. It contains user configurations, system scripts, and hooks designed to support and integrate with our customized Caelestia shell.
+
+### Major Changes & Configuration Advancements:
+
+- **AwesomeWM Workspace Group Emulation**:
+  - Re-mapped workspaces to emulate AwesomeWM's independent workspace/tag system per monitor using a custom `wsaction.fish` switcher script and keybindings.
+  - Partitions workspaces 1–30 into 3 distinct screen groups (Left monitor, Middle monitor, Laptop screen).
+  - Resolved workspace 10/20/30 modulo index arithmetic bugs and fish shell environment syntax errors.
+- **EasyEffects Audio Service Autostart**:
+  - Configured EasyEffects daemon autostart on Hyprland boot via `exec-once = easyeffects --gapplication-service`.
+- **Systemd-run Workspace Redirect**:
+  - Disabled Hyprland's `initial_workspace_tracking` to ensure applications launched as systemd scopes (`app2unit`) open on the active workspace rather than being redirected to Workspace 1.
+- **Screenshot Overlay Freeze Keybindings**:
+  - Created a seamless Windows-like screenshot region capture using `Print` and `Super+Shift+S` mapped to area freeze captures.
+- **Audio Increment Sync**:
+  - Structured a `volume_control.sh` wrapper script that automatically matches the volume increment step defined in `shell.json`.
+
+---
 This is the main repo of the caelestia dots and contains the user configs for
 apps. This repo also includes an install script to install the entire dots.
 
