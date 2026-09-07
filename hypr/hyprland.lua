@@ -1,6 +1,6 @@
 local home   = os.getenv("HOME")
 local hypr   = home .. "/.config/hypr"
-package.path = package.path .. ";" .. home .. "/.config/caelestia/?.lua"
+package.path = package.path .. ";" .. hypr .. "/?.lua;" .. hypr .. "/?/init.lua;" .. home .. "/.config/caelestia/?.lua"
 
 -- Create a file if it doesn't exist, optionally with initial content
 local function maybe_create(file, content)
@@ -50,7 +50,25 @@ if type(overrides) == "table" then
     end
 end
 
--- Default monitor conf
+-- Monitor configuration matching /home/execorn/scripts/three_default.sh
+hl.monitor({
+    output   = "DP-4",
+    mode     = "1920x1080@144",
+    position = "0x0",
+    scale    = 1,
+})
+hl.monitor({
+    output   = "DP-3",
+    mode     = "2560x1440@100",
+    position = "1920x0",
+    scale    = 1,
+})
+hl.monitor({
+    output   = "eDP-1",
+    mode     = "1920x1080@165",
+    position = "1920x1440",
+    scale    = 1,
+})
 hl.monitor({
     output   = "",
     mode     = "preferred",

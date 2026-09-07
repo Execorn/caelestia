@@ -2,6 +2,9 @@ local vars = require("variables")
 local fn   = require("utils.functions")
 
 hl.on("hyprland.start", function()
+    -- Dbus activation environment
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+
     -- Keyring and auth
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
@@ -22,8 +25,15 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/geoclue-2.0/demos/agent")
     hl.exec_cmd("sleep 1 && gammastep")
 
-    -- Forward bluetooth media commands to MPRIS
+    -- Bluetooth agent and media commands
+    hl.exec_cmd("blueman-applet")
     hl.exec_cmd("mpris-proxy")
+
+    -- Audio effects daemon
+    hl.exec_cmd("easyeffects --gapplication-service")
+
+    -- Resize and move windows daemon
+    hl.exec_cmd("caelestia resizer -d")
 
     -- Start shell
     hl.exec_cmd("caelestia shell -d")

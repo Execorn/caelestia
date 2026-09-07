@@ -6,9 +6,9 @@ return {
     ------------------
 
     -- Apps
-    terminal                   = "foot",
+    terminal                   = "alacritty",
     browser                    = "firefox",
-    editor                     = "codium",
+    editor                     = "code",
     fileExplorer               = "thunar",
     audioSettings              = "pwvucontrol",
 
@@ -61,7 +61,7 @@ return {
     -- Modifier only, the actual binds will be mod + 0-9. These should be strings and not arrays.
     kbGoToWs                   = "SUPER",
     kbGoToWsGroup              = "CTRL + SUPER",
-    kbMoveWinToWs              = "SUPER + ALT",
+    kbMoveWinToWs              = "SUPER + SHIFT",
     kbMoveWinToWsGroup         = "CTRL + SUPER + ALT",
 
     -- All the following binds can be either an array of binds to bind multiple keys, or a single string.
@@ -71,8 +71,8 @@ return {
     kbMoveWinFromWsSpecial     = "CTRL + SUPER + SHIFT + Down",
     kbMoveWinToWsNext          = { "SUPER + ALT + mouse_down", "SUPER + ALT + Page_Down", "CTRL + SUPER + SHIFT + Right" },
     kbMoveWinToWsPrev          = { "SUPER + ALT + mouse_up", "SUPER + ALT + Page_Up", "CTRL + SUPER + SHIFT + Left" },
-    kbNextWs                   = { "SUPER + mouse_down", "CTRL + SUPER + Right", "SUPER + Page_Down" },
-    kbPrevWs                   = { "SUPER + mouse_up", "CTRL + SUPER + Left", "SUPER + Page_Up" },
+    kbNextWs                   = { "SUPER + Right", "SUPER + mouse_down", "SUPER + Page_Down" },
+    kbPrevWs                   = { "SUPER + Left", "SUPER + mouse_up", "SUPER + Page_Up" },
     kbNextWsGroup              = "CTRL + SUPER + mouse_down",
     kbPrevWsGroup              = "CTRL + SUPER + mouse_up",
 
@@ -99,20 +99,21 @@ return {
     kbPinWindow                = "SUPER + P",
     kbWindowFullscreen         = "SUPER + F",
     kbWindowBorderedFullscreen = "SUPER + ALT + F",
-    kbToggleWindowFloating     = "SUPER + ALT + Space",
+    kbToggleWindowFloating     = "SUPER + G",
     kbCloseWindow              = "SUPER + Q",
 
     -- Special workspaces toggles
-    kbSpecialWs                = "SUPER + S",
+    kbSpecialWs                = "SUPER + ALT + S",
     kbSystemMonitorWs          = "CTRL + SHIFT + Escape",
-    kbMusicWs                  = "SUPER + M",
-    kbCommunicationWs          = "SUPER + D",
-    kbTodoWs                   = "SUPER + R",
+    kbMusicWs                  = "SUPER + ALT + M",
+    kbCommunicationWs          = "SUPER + ALT + D",
+    kbTodoWs                   = "SUPER + ALT + R",
 
     -- Apps
-    kbTerminal                 = "SUPER + T",
-    kbBrowser                  = "SUPER + W",
+    kbTerminal                 = "SUPER + Return",
+    kbBrowser                  = "SUPER + B",
     kbEditor                   = "SUPER + C",
+    kbAntigravity              = "SUPER + A",
     kbFileExplorer             = "SUPER + E",
     kbAudioSettings            = "CTRL + ALT + V",
 
@@ -134,12 +135,12 @@ return {
 
     -- Misc
     kbLauncher                 = "SUPER + SUPER_L",
-    kbSession                  = "CTRL + ALT + Delete",
-    kbShowSidebar              = "SUPER + N",
+    kbSession                  = "SUPER + SHIFT + E",
+    kbShowSidebar              = "SUPER + SHIFT + N",
     kbClearNotifs              = "CTRL + ALT + C",
-    kbShowPanels               = "SUPER + K",
-    kbLock                     = "SUPER + L",
-    kbRestoreLock              = "SUPER + ALT + L",
+    kbShowPanels               = "SUPER + ALT + K",
+    kbLock                     = "SUPER + SHIFT + O",
+    kbRestoreLock              = "SUPER + ALT + O",
     kbSleep                    = "SUPER + SHIFT + L",
 
     -- Clipboard and emoji picker

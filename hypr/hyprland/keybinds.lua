@@ -157,20 +157,35 @@ create_bind(vars.kbCommunicationWs, fn.toggle("communication"))
 create_bind(vars.kbTodoWs, fn.toggle("todo"))
 
 -- Apps
-create_bind(vars.kbTerminal, hl.dsp.exec_cmd(vars.terminal))
+create_bind(vars.kbTerminal, hl.dsp.exec_cmd("hyprctl switchxkblayout all 0 && " .. vars.terminal))
 create_bind(vars.kbBrowser, hl.dsp.exec_cmd(vars.browser))
 create_bind(vars.kbEditor, hl.dsp.exec_cmd(vars.editor))
+create_bind(vars.kbAntigravity, hl.dsp.exec_cmd("antigravity"))
+create_bind("SUPER + SHIFT + G", hl.dsp.exec_cmd("github-desktop"))
+create_bind("SUPER + Shift_R", hl.dsp.exec_cmd("Telegram"))
+create_bind("SUPER + SHIFT + P", hl.dsp.exec_cmd(vars.terminal .. " -e calcurse"))
+create_bind("SUPER + Caps_Lock", function()
+    hl.dispatch("workspace previous")
+end)
 create_bind(vars.kbFileExplorer, hl.dsp.exec_cmd(vars.fileExplorer))
+create_bind("SUPER + ALT + E", hl.dsp.exec_cmd("nemo"))
+create_bind("CTRL + ALT + Escape", hl.dsp.exec_cmd("qps"))
 create_bind(vars.kbAudioSettings, hl.dsp.exec_cmd(vars.audioSettings))
 
 -- Utilities
-create_bind(vars.kbScreenshot, hl.dsp.exec_cmd("caelestia screenshot"), locked)
+create_bind(vars.kbScreenshot, hl.dsp.global("caelestia:screenshotFreeze"))
 create_bind(vars.kbScreenshotFreeze, hl.dsp.global("caelestia:screenshotFreeze"))
 create_bind(vars.kbScreenshotRegion, hl.dsp.global("caelestia:screenshot"))
 create_bind(vars.kbRecord, hl.dsp.exec_cmd("caelestia record"))
 create_bind(vars.kbRecordSound, hl.dsp.exec_cmd("caelestia record -s"))
 create_bind(vars.kbRecordRegion, hl.dsp.exec_cmd("caelestia record -r"))
 create_bind(vars.kbColorPicker, hl.dsp.exec_cmd("hyprpicker -a"))
+
+-- Shell Globals
+create_bind("SUPER + S", hl.dsp.global("caelestia:cheatsheet"))
+create_bind("SUPER + Tab", hl.dsp.global("caelestia:overview"))
+create_bind("SUPER + SHIFT + T", hl.dsp.global("caelestia:ocr"))
+create_bind("SUPER + N", hl.dsp.global("caelestia:newsfeed"))
 
 -- Brightness
 create_bind("XF86MonBrightnessUp", hl.dsp.global("caelestia:brightnessUp"), locked)
@@ -183,21 +198,16 @@ create_bind({ vars.kbMediaPrev, "XF86AudioPrev" }, hl.dsp.global("caelestia:medi
 create_bind({ vars.kbMediaStop, "XF86AudioStop" }, hl.dsp.global("caelestia:mediaStop"), locked)
 
 -- Volume
-create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), locked)
+create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh mute"), locked)
 create_bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), locked)
 create_bind(
     "XF86AudioRaiseVolume",
-    hl.dsp.exec_cmd(
-        "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l " ..
-        (vars.volumeMax / 100) .. " @DEFAULT_AUDIO_SINK@ " .. vars.volumeStep .. "%+"
-    ),
+    hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh up"),
     locked_repeating
 )
 create_bind(
     "XF86AudioLowerVolume",
-    hl.dsp.exec_cmd(
-        "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ " .. vars.volumeStep .. "%-"
-    ),
+    hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh down"),
     locked_repeating
 )
 

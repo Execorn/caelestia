@@ -61,6 +61,7 @@ hl.window_rule({
 
 -- Opaque apps
 tagged_rule(opaque_tag, {
+    "Alacritty",                     -- Terminal (Alacritty)
     "foot",                          -- Terminal
     "equibop",                       -- Discord client
     "org.quickshell",                -- Quickshell
@@ -83,10 +84,14 @@ tagged_rule(float_tag, {
     "org.quickshell",                     -- Quickshell
 }, "class")
 tagged_rule(float_tag, {
-    "File (Operation|Upload)( Progress)?", -- File manager operation progress (upload, move, copy, etc)
-    ".* Properties",                       -- File properties
-    'Rename ".*"',                         -- File renaming
+    "File (Operation|Upload)( Progress)?",                   -- File manager operation progress (upload, move, copy, etc)
+    ".* Properties",                                         -- File properties
+    'Rename ".*"',                                           -- File renaming
+    "^(Confirm.*|Warning.*|Error.*|Question.*|Information.*)$", -- General dialogs
 }, "title")
+hl.window_rule({ match = { modal = true }, float = true })
+hl.window_rule({ match = { class = "[tT]hunar", title = "^(Rename.*|Enter the new name:)$" }, float = true })
+hl.window_rule({ match = { class = "wechat|WeChat|com\\.tencent\\.wechat", title = "^(图片查看器|视频播放器|网页|小程序|.*预览.*|.*Viewer.*)$" }, float = true })
 
 
 -- Sized floaters
