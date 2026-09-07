@@ -5,10 +5,12 @@ function fish_greeting
     echo '    /  __/>  </  __/ /__/ /_/ / /  / / / /'
     echo '    \___/_/|_|\___/\___/\____/_/  /_/ /_/ '
     set_color normal
-    fastfetch --key-padding-left 5
+    if command -v fastfetch &> /dev/null
+        fastfetch --key-padding-left 5
 
-    # Show random motivational quote
-    if test -f ~/.config/fastfetch/quotes.txt; and command -sq shuf
-        printf '    \e[3m\e[38;5;16m"%s"\e[0m\n\n' (shuf -n 1 ~/.config/fastfetch/quotes.txt)
+        # Show random motivational quote
+        if test -f ~/.config/fastfetch/quotes.txt; and command -sq shuf
+            printf '    \e[3m\e[38;5;16m"%s"\e[0m\n\n' (shuf -n 1 ~/.config/fastfetch/quotes.txt)
+        end
     end
 end
