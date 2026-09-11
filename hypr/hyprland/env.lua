@@ -24,3 +24,8 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 
 -- Others
 hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")
+hl.env("MOZ_ENABLE_WAYLAND", "1")
+hl.env("LIBVA_DRIVER_NAME", "radeonsi")
+hl.env("VDPAU_DRIVER", "radeonsi")
+hl.env("QML2_IMPORT_PATH", "/home/execorn/ricing/shell/build/qml")
+hl.env("CAELESTIA_LIB_DIR", "/home/execorn/ricing/shell/build/lib")
