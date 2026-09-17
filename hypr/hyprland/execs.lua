@@ -35,6 +35,9 @@ hl.on("hyprland.start", function()
     -- Resize and move windows daemon
     hl.exec_cmd("caelestia resizer -d")
 
+    -- Wallpaper daemon
+    hl.exec_cmd("wwald")
+
     -- Start shell
     hl.exec_cmd("caelestia shell -d")
 end)
