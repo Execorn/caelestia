@@ -21,15 +21,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme " .. vars.cursorTheme)
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-size " .. vars.cursorSize)
 
-    -- Location provider and night light
-    hl.exec_cmd("/usr/lib/geoclue-2.0/demos/agent")
-    hl.exec_cmd("sleep 1 && gammastep")
-
     -- Media commands (Bluetooth UI is handled natively by Caelestia)
     hl.exec_cmd("mpris-proxy")
-
-    -- Audio effects daemon
-    hl.exec_cmd("easyeffects --gapplication-service")
 
     -- Wallpaper daemon
     hl.exec_cmd("wwald")

@@ -25,5 +25,19 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -- Others
 hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")
 hl.env("MOZ_ENABLE_WAYLAND", "1")
-hl.env("QML2_IMPORT_PATH", "/home/execorn/ricing/shell/build/qml")
-hl.env("CAELESTIA_LIB_DIR", "/home/execorn/ricing/shell/build/lib")
+hl.env("QML2_IMPORT_PATH", "/home/execorn/.local/lib/qt6/qml")
+hl.env("CAELESTIA_LIB_DIR", "/home/execorn/.local/lib/caelestia")
+
+-- In Discrete-Only NVIDIA mode (single DRM render node), prevent libglvnd from
+-- probing 50_mesa.json, which faults in ~98 MiB of libLLVM + libgallium per process.
+local f_r129 = io.open("/dev/dri/renderD129", "r")
+if f_r129 then
+    f_r129:close()
+else
+    local f_nv = io.open("/usr/share/glvnd/egl_vendor.d/10_nvidia.json", "r")
+    if f_nv then
+        f_nv:close()
+        hl.env("__EGL_VENDOR_LIBRARY_FILENAMES", "/usr/share/glvnd/egl_vendor.d/10_nvidia.json")
+        hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+    end
+end
