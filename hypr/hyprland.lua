@@ -51,29 +51,41 @@ if type(overrides) == "table" then
 end
 
 -- Monitor configuration matching /home/execorn/scripts/three_default.sh
+local default_reserved = { top = 10, bottom = 10, left = 60, right = 10 }
 hl.monitor({
     output   = "DP-4",
     mode     = "1920x1080@144",
     position = "0x0",
     scale    = 1,
+    reserved = default_reserved,
 })
 hl.monitor({
     output   = "DP-3",
     mode     = "2560x1440@100",
     position = "1920x0",
     scale    = 1,
+    reserved = default_reserved,
 })
 hl.monitor({
     output   = "eDP-1",
     mode     = "1920x1080@165",
     position = "1920x1440",
     scale    = 1,
+    reserved = default_reserved,
+})
+hl.monitor({
+    output   = "eDP-2",
+    mode     = "1920x1080@165",
+    position = "1920x1440",
+    scale    = 1,
+    reserved = default_reserved,
 })
 hl.monitor({
     output   = "",
     mode     = "preferred",
     position = "auto",
     scale    = 1,
+    reserved = default_reserved,
 })
 
 -- Configs

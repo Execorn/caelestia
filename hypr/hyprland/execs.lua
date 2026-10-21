@@ -13,8 +13,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
 
-    -- Auto delete trash 30 days old
-    hl.exec_cmd("trash-empty 30")
+    -- Auto delete trash 30 days old (non-interactive so it never blocks on stdin)
+    hl.exec_cmd("trash-empty -f 30")
 
     -- Cursors
     hl.exec_cmd("hyprctl setcursor " .. vars.cursorTheme .. " " .. vars.cursorSize)
@@ -25,20 +25,16 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("/usr/lib/geoclue-2.0/demos/agent")
     hl.exec_cmd("sleep 1 && gammastep")
 
-    -- Bluetooth agent and media commands
-    hl.exec_cmd("blueman-applet")
+    -- Media commands (Bluetooth UI is handled natively by Caelestia)
     hl.exec_cmd("mpris-proxy")
 
     -- Audio effects daemon
     hl.exec_cmd("easyeffects --gapplication-service")
 
-    -- Resize and move windows daemon
-    hl.exec_cmd("caelestia resizer -d")
-
     -- Wallpaper daemon
     hl.exec_cmd("wwald")
 
-    -- Start shell
+    -- Start shell (window resizing is handled by Lua hooks below)
     hl.exec_cmd("caelestia shell -d")
 end)
 
