@@ -10,7 +10,7 @@ return {
     browser                    = "firefox",
     editor                     = "code",
     fileExplorer               = "thunar",
-    audioSettings              = "pwvucontrol",
+    audioSettings              = "pavucontrol",
 
     -- Touchpad
     touchpadDisableTyping      = true,

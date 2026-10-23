@@ -32,20 +32,29 @@ hl.on("hyprland.start", function()
 end)
 
 -- Resizer listeners
-local function apply_resizer_rules(win)
-    local float_center = {
+local function float_center_actions(win)
+    return {
         hl.dsp.window.float({ action = "on", window = win }),
         hl.dsp.window.center({ window = win }),
     }
-    local pip_actions = fn.move_actions(win) or {}
+end
+
+local function pip_move_actions(win)
+    return fn.move_actions(win) or {}
+end
+
+local function apply_resizer_rules(win)
+    if not win then
+        return
+    end
 
     -- Bitwarden
-    fn.resizer(win, "Bitwarden", 20, 54, float_center, true, "class")                                       -- Native app
-    fn.resizer(win, "^Extension: %(Bitwarden Password Manager%) %- Bitwarden", 20, 54, float_center, false) -- Firefox
-    fn.resizer(win, "nngceckbapebfimnlniiiahkandclblb", 20, 54, float_center, true, "class")                -- Chromium
+    fn.resizer(win, "Bitwarden", 20, 54, float_center_actions, true, "class")                                       -- Native app
+    fn.resizer(win, "^Extension: %(Bitwarden Password Manager%) %- Bitwarden", 20, 54, float_center_actions, false) -- Firefox
+    fn.resizer(win, "nngceckbapebfimnlniiiahkandclblb", 20, 54, float_center_actions, true, "class")                -- Chromium
 
     -- Picture in picture
-    fn.resizer(win, "Picture[- ]in[- ][Pp]icture", 0, 0, pip_actions, false)
+    fn.resizer(win, "Picture[- ]in[- ][Pp]icture", 0, 0, pip_move_actions, false)
 end
 
 hl.on("window.title", apply_resizer_rules)

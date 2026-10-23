@@ -69,6 +69,8 @@ tagged_rule(opaque_tag, {
     "krita|gimp|inkscape|darktable", -- Image editors
     "resolve|kdenlive|shotcut",      -- Video editors
     "blender|godot",                 -- 3D editors
+    "guitarix|Guitarix",             -- Guitar DSP rack & LV2 UIs
+    "org.rncbc.qpwgraph|qpwgraph",   -- PipeWire patchbay
 }, "class")
 
 
@@ -182,12 +184,12 @@ tagged_rule(float_tag, {
 -------------------------
 -- These have to come after all uses of window tagging. Thank you Hyprland...
 
-create_tag(opaque_tag, { opaque = true })
+create_tag(opaque_tag, { opaque = true, no_blur = true })
 create_tag(float_tag, { float = true })
 create_tag(float_50_60_tag, { float = true, size = "(monitor_w*0.5) (monitor_h*0.6)", center = true })
 create_tag(float_60_70_tag, { float = true, size = "(monitor_w*0.6) (monitor_h*0.7)", center = true })
 create_tag(float_70_80_tag, { float = true, size = "(monitor_w*0.7) (monitor_h*0.8)", center = true })
-create_tag(game_tag, { opaque = true, immediate = true, idle_inhibit = "always" })
+create_tag(game_tag, { opaque = true, no_blur = true, immediate = true, idle_inhibit = "always" })
 create_tag(xwl_popup_tag, {
     no_dim = true,
     no_shadow = true,

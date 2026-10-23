@@ -42,7 +42,8 @@ end
 local function resizer(window, pattern, x_percent, y_percent, actions, exact, field)
     local value = window and window[field or "title"]
     if value and string.find(value, pattern, 1, exact) then
-        local disp = (type(actions) == "table") and actions or { actions }
+        local resolved = (type(actions) == "function") and (actions(window) or {}) or actions
+        local disp = (type(resolved) == "table") and resolved or { resolved }
         for _, x in ipairs(disp) do
             hl.dispatch(x)
         end
