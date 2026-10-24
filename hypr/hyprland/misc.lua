@@ -23,6 +23,17 @@ hl.config({
         background_color             = "rgb(" .. scheme.surfaceContainer .. ")",
     },
 
+    render = {
+        direct_scanout    = 1,
+        cm_enabled        = false,
+        cm_auto_hdr       = 0,
+        send_content_type = false,
+    },
+
+    cursor = {
+        no_break_fs_vrr = 1,
+    },
+
     debug = {
         error_position = 1
     }

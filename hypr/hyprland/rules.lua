@@ -23,6 +23,7 @@ end
 
 -- All tags
 local opaque_tag = "opaque"
+local solid_tag = "solid"
 local float_tag = "float"
 local float_60_70_tag = "float_60_70"
 local float_70_80_tag = "float_70_80"
@@ -59,13 +60,15 @@ hl.window_rule({
 ---- Tagged rules ----
 ----------------------
 
--- Opaque apps
+-- Opaque apps (opaque = true makes Hyprland's shouldBlur() return false, so omit translucent terminals)
 tagged_rule(opaque_tag, {
-    "Alacritty",                     -- Terminal (Alacritty)
-    "foot",                          -- Terminal
     "equibop",                       -- Discord client
     "org.quickshell",                -- Quickshell
+}, "class")
+
+tagged_rule(solid_tag, {
     "feh|imv|swappy",                -- Image viewers
+    "mpv|vlc",                       -- Video players
     "krita|gimp|inkscape|darktable", -- Image editors
     "resolve|kdenlive|shotcut",      -- Video editors
     "blender|godot",                 -- 3D editors
@@ -184,7 +187,8 @@ tagged_rule(float_tag, {
 -------------------------
 -- These have to come after all uses of window tagging. Thank you Hyprland...
 
-create_tag(opaque_tag, { opaque = true, no_blur = true })
+create_tag(opaque_tag, { opaque = true })
+create_tag(solid_tag, { opaque = true, no_blur = true })
 create_tag(float_tag, { float = true })
 create_tag(float_50_60_tag, { float = true, size = "(monitor_w*0.5) (monitor_h*0.6)", center = true })
 create_tag(float_60_70_tag, { float = true, size = "(monitor_w*0.6) (monitor_h*0.7)", center = true })
