@@ -3,11 +3,11 @@ local fn   = require("utils.functions")
 
 hl.on("hyprland.start", function()
     -- Dbus activation environment
-    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE XDG_SESSION_ID QT_QPA_PLATFORM")
 
-    -- Keyring and auth
+    -- Keyring and auth (run polkit agent inside user slice in case ananicy-cpp moved Hyprland to root cgroup)
     hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
-    hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
+    hl.exec_cmd("systemd-run --user --quiet --collect /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
 
     -- Clipboard history
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
