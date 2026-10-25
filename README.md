@@ -2,22 +2,21 @@
 
 ## Execorn's Fork of Caelestia Dotfiles
 
-This is a personal fork of the original [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) repository by **Execorn**. It contains user configurations, system scripts, and hooks designed to support and integrate with our customized Caelestia shell.
+This fork of [caelestia-dots/caelestia](https://github.com/caelestia-dots/caelestia) provides the Lua configuration for Hyprland `0.56+` and desktop application configs paired with [Execorn/shell](https://github.com/Execorn/shell).
 
-### Major Changes & Configuration Advancements:
+### Key Enhancements
 
-- **AwesomeWM Workspace Group Emulation**:
-  - Re-mapped workspaces to emulate AwesomeWM's independent workspace/tag system per monitor using a custom `wsaction.fish` switcher script and keybindings.
-  - Partitions workspaces 1–30 into 3 distinct screen groups (Left monitor, Middle monitor, Laptop screen).
-  - Resolved workspace 10/20/30 modulo index arithmetic bugs and fish shell environment syntax errors.
-- **EasyEffects Audio Service Autostart**:
-  - Configured EasyEffects daemon autostart on Hyprland boot via `exec-once = easyeffects --gapplication-service`.
-- **Systemd-run Workspace Redirect**:
-  - Disabled Hyprland's `initial_workspace_tracking` to ensure applications launched open on the active workspace.
-- **Screenshot Overlay Freeze Keybindings**:
-  - Created a seamless Windows-like screenshot region capture using `Print` and `Super+Shift+S` mapped to area freeze captures.
-- **Audio Increment Sync**:
-  - Structured a `volume_control.sh` wrapper script that automatically matches the volume increment step defined in `shell.json`.
+- **Native Hyprland `0.56+` Lua Configuration**:
+  - Migrated all monitor layouts, workspace groups, window rules, and dynamic resizer hooks to `hypr/hyprland.lua` and modular Lua files under `hypr/hyprland/`.
+  - Pre-allocates window matcher closures and dispatches title, class, and tag rules separately so terminal and browser title updates allocate zero Lua tables.
+- **Discrete NVIDIA 3-Monitor & Rendering Optimizations**:
+  - Configured for a 3-monitor layout (`DP-4` 1920×1080@144Hz, `DP-3` 2560×1440@100Hz, `eDP-1` 1920×1080@165Hz) with dedicated workspace pinning.
+  - Isolates `__EGL_VENDOR_LIBRARY_FILENAMES` to NVIDIA when the Intel iGPU has no connected outputs, preventing Mesa/LLVM from loading into Wayland processes.
+  - Enables Variable Frame Rate (`vfr = true`), fullscreen direct scanout (`direct_scanout = 1`), and SDR color-management bypass (`cm_enabled = false`).
+  - Retains background Kawase blur for terminal emulators (`Alacritty`, `foot`, `kitty`, `wezterm`, `ghostty`) while bypassing blur and alpha compositing behind opaque media and creative apps (`mpv`, `vlc`, `gimp`, `krita`, `blender`).
+- **Session & Wallpaper Integration**:
+  - Autostarts the `wwald` C23 Wayland wallpaper daemon and launches `polkit-gnome-authentication-agent-1` inside the user's systemd slice (`user@1000.service`) so Polkit and `systemd-logind` work reliably even when `ananicy-cpp` moves Hyprland to the root cgroup.
+  - Adds keybinds for the Caelestia Workspace Overview (`Super + Tab`), Nexus settings (`Super + Shift + W`), and Screen OCR (`Super + Shift + T`).
 
 ---
 This is the main repo of the Caelestia dotfiles and contains user configs for
@@ -141,20 +140,22 @@ You can find more information on configuring the shell and the CLI in their resp
 
 ### Workspaces
 
-| Keybind                                                                                | Action                               |
-| -------------------------------------------------------------------------------------- | ------------------------------------ |
-| `Super + 1~9, 0`                                                                       | Go to workspace 1~10                 |
-| `Super + Alt + 1~9, 0`                                                                 | Move window to workspace 1~10        |
-| `Ctrl + Super + 1~9, 0`                                                                | Go to workspace group (×10)          |
-| `Ctrl + Super + Alt + 1~9, 0`                                                          | Move window to workspace group       |
-| `Super + Alt + S`, `Ctrl + Super + Shift + Up`                                         | Move window to special workspace     |
-| `Ctrl + Super + Shift + Down`                                                          | Move window out of special workspace |
-| `Super + Alt + Scroll Down`, `Super + Alt + Page_Down`, `Ctrl + Super + Shift + Right` | Move window to next workspace        |
-| `Super + Alt + Scroll Up`, `Super + Alt + Page_Up`, `Ctrl + Super + Shift + Left`      | Move window to previous workspace    |
-| `Super + Scroll Down`, `Ctrl + Super + Right`, `Super + Page_Down`                     | Go to next workspace                 |
-| `Super + Scroll Up`, `Ctrl + Super + Left`, `Super + Page_Up`                          | Go to previous workspace             |
-| `Ctrl + Super + Scroll Down`                                                           | Go to next workspace group           |
-| `Ctrl + Super + Scroll Up`                                                             | Go to previous workspace group       |
+| Keybind                                                                                | Action                                   |
+| -------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `Super + 1~9, 0`                                                                       | Go to workspace 1~10                     |
+| `Super + Shift + 1~9, 0`                                                               | Move window to workspace 1~10            |
+| `Super + Alt + 1~9, 0`                                                                 | Move window to workspace 1~10 (silently) |
+| `Ctrl + Super + 1~9, 0`                                                                | Go to workspace group (×10)              |
+| `Ctrl + Super + Alt + 1~9, 0`                                                          | Move window to workspace group           |
+| `Super + Alt + S`, `Ctrl + Super + Shift + Up`                                         | Move window to special workspace         |
+| `Ctrl + Super + Shift + Down`                                                          | Move window out of special workspace     |
+| `Super + Alt + Scroll Down`, `Super + Alt + Page_Down`, `Ctrl + Super + Shift + Right` | Move window to next workspace            |
+| `Super + Alt + Scroll Up`, `Super + Alt + Page_Up`, `Ctrl + Super + Shift + Left`      | Move window to previous workspace        |
+| `Super + Scroll Down`, `Super + Right`, `Super + Page_Down`                            | Go to next workspace                     |
+| `Super + Scroll Up`, `Super + Left`, `Super + Page_Up`                                 | Go to previous workspace                 |
+| `Ctrl + Super + Scroll Down`                                                           | Go to next workspace group               |
+| `Ctrl + Super + Scroll Up`                                                             | Go to previous workspace group           |
+| `Super + Tab`                                                                          | Toggle workspace overview                |
 
 ---
 
@@ -176,21 +177,21 @@ You can find more information on configuring the shell and the CLI in their resp
 
 | Keybind                                       | Action                                       |
 | --------------------------------------------- | -------------------------------------------- |
-| `Super + Minus`, `Super + Alt + Left`         | Decrease window width                        |
-| `Super + Equal`, `Super + Alt + Right`        | Increase window width                        |
-| `Super + Shift + Minus`, `Super + Alt + Up`   | Decrease window height                       |
-| `Super + Shift + Minus`, `Super + Alt + Down` | Increase window height                       |
+| `Super + Minus`, `Super + Alt + Left`         | Move window split left                       |
+| `Super + Equal`, `Super + Alt + Right`        | Move window split right                      |
+| `Super + Shift + Minus`, `Super + Alt + Up`   | Move window split up                         |
+| `Super + Shift + Equal`, `Super + Alt + Down` | Move window split down                       |
 | `Super + Left/Right/Up/Down`                  | Focus window in direction                    |
 | `Super + Shift + Left/Right/Up/Down`          | Move window in direction                     |
-| `Super + LMB drag`, `Super + Z + LMB`         | Move window (drag)                           |
-| `Super + RMB drag`, `Super + X + LMB`         | Resize window (drag)                         |
+| `Super + LMB`, `Super + Z + LMB`              | Move window (drag)                           |
+| `Super + RMB`, `Super + X + LMB`              | Resize window (drag)                         |
 | `Ctrl + Super + Backslash`                    | Center window                                |
 | `Ctrl + Super + Alt + Backslash`              | Resize window to 55×70% of screen and center |
-| `Super + Alt + Backslash`                     | Picture-in-picture mode                      |
-| `Super + P`                                   | Pin window                                   |
-| `Super + F`                                   | Fullscreen window                            |
-| `Super + Alt + F`                             | Fullscreen window (bordered)                 |
-| `Super + Alt + Space`                         | Toggle floating for window                   |
+| `Super + Alt + Backslash`                     | Enable picture-in-picture mode for window    |
+| `Super + P`                                   | Toggle pinned mode for window                |
+| `Super + F`                                   | Toggle fullscreen mode for window            |
+| `Super + Alt + F`                             | Toggle maximised mode for window             |
+| `Super + G`                                   | Toggle floating mode for window              |
 | `Super + Q`                                   | Close window                                 |
 
 ---
@@ -199,23 +200,24 @@ You can find more information on configuring the shell and the CLI in their resp
 
 | Keybind                 | Action                          |
 | ----------------------- | ------------------------------- |
-| `Super + S`             | Toggle special workspace        |
+| `Super + Alt + S`       | Toggle special workspace        |
 | `Ctrl + Shift + Escape` | Toggle system monitor workspace |
-| `Super + M`             | Toggle music workspace          |
-| `Super + D`             | Toggle communication workspace  |
-| `Super + R`             | Toggle todo workspace           |
+| `Super + Alt + M`       | Toggle music workspace          |
+| `Super + Alt + D`       | Toggle communication workspace  |
+| `Super + Alt + R`       | Toggle todo workspace           |
 
 ---
 
 ### Applications
 
-| Keybind          | Action                                |
-| ---------------- | ------------------------------------- |
-| `Super + T`      | Terminal (default: foot)              |
-| `Super + W`      | Browser (default: firefox)            |
-| `Super + C`      | Editor (default: codium)              |
-| `Super + E`      | File explorer (default: thunar)       |
-| `Ctrl + Alt + V` | Audio settings (default: pwvucontrol) |
+| Keybind          | Action                                 |
+| ---------------- | -------------------------------------- |
+| `Super + Return` | Terminal (default: alacritty)          |
+| `Super + B`      | Browser (default: firefox)             |
+| `Super + C`      | Editor (default: code)                 |
+| `Super + A`      | Antigravity IDE                        |
+| `Super + E`      | File explorer (default: thunar)        |
+| `Ctrl + Alt + V` | Audio settings (default: pavucontrol)  |
 
 ---
 
@@ -223,13 +225,14 @@ You can find more information on configuring the shell and the CLI in their resp
 
 | Keybind                   | Action              |
 | ------------------------- | ------------------- |
-| `Print`                   | Screenshot          |
+| `Print`                   | Screenshot (freeze) |
 | `Super + Shift + S`       | Screenshot (freeze) |
 | `Super + Shift + Alt + S` | Screenshot (region) |
+| `Super + Shift + T`       | Screen OCR          |
 | `Ctrl + Alt + R`          | Record fullscreen   |
 | `Super + Alt + R`         | Record with sound   |
 | `Super + Shift + Alt + R` | Record region       |
-| `Super + Shift + C`       | Color picker        |
+| `Super + Shift + C`       | Colour picker       |
 
 ---
 
@@ -247,15 +250,16 @@ You can find more information on configuring the shell and the CLI in their resp
 
 ### Miscellaneous
 
-| Keybind               | Action                    |
-| --------------------- | ------------------------- |
-| `Ctrl + Alt + Delete` | Open shell session menu   |
-| `Super + N`           | Toggle shell sidebar      |
-| `Ctrl + Alt + C`      | Clear shell notifications |
-| `Super + K`           | Show all shell panels     |
-| `Super + L`           | Lock screen               |
-| `Super + Alt + L`     | Restore shell lockscreen  |
-| `Super + Shift + L`   | Run sleep command         |
+| Keybind             | Action                    |
+| ------------------- | ------------------------- |
+| `Super + Shift + E` | Open shell session menu   |
+| `Super + Shift + N` | Toggle shell sidebar      |
+| `Super + Shift + W` | Toggle Nexus settings     |
+| `Ctrl + Alt + C`    | Clear shell notifications |
+| `Super + Alt + K`   | Show all shell panels     |
+| `Super + Shift + O` | Lock screen               |
+| `Super + Alt + O`   | Restore shell lockscreen  |
+| `Super + Shift + L` | Run sleep command         |
 
 ---
 

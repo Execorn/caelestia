@@ -8,6 +8,8 @@ local function wsaction(action, range, i)
 
         if action == "move" then
             return hl.dispatch(hl.dsp.window.move({ workspace = tostring(z) }))
+        elseif action == "move_silent" then
+            return hl.dispatch(hl.dsp.window.move({ workspace = tostring(z), follow = false }))
         else
             return hl.dispatch(hl.dsp.focus({ workspace = tostring(z) }))
         end
@@ -39,9 +41,8 @@ local function resize_active_window(x, y)
     end
 end
 
-local function resizer(window, pattern, x_percent, y_percent, actions, exact, field)
-    local value = window and window[field or "title"]
-    if value and string.find(value, pattern, 1, exact) then
+local function resizer(window, val_fn, x_percent, y_percent, actions)
+    if window and val_fn(window) then
         local resolved = (type(actions) == "function") and (actions(window) or {}) or actions
         local disp = (type(resolved) == "table") and resolved or { resolved }
         for _, x in ipairs(disp) do
@@ -56,7 +57,6 @@ local function resizer(window, pattern, x_percent, y_percent, actions, exact, fi
             sz.window = window
             hl.dispatch(hl.dsp.window.resize(sz))
         end
-        hl.dispatch(hl.dsp.window.set_prop({ prop = "keep_aspect_ratio", value = "true", window = window }))
     end
 end
 
@@ -83,6 +83,7 @@ local function move_actions(win)
         return {
             hl.dsp.window.resize({ x = x_resize, y = y_resize, window = win }),
             hl.dsp.window.move({ x = move_x, y = move_y, relative = false, window = win }),
+            hl.dsp.window.set_prop({ prop = "keep_aspect_ratio", value = "true", window = win })
         }
     end
 end
