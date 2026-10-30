@@ -15,6 +15,12 @@ hl.config({
         focus_on_activate            = true,
         session_lock_xray            = true,
 
+        -- Keep DPMS wake-on-input enabled as a fallback, but never configure idle
+        -- daemons (Caelestia IdleMonitors or hypridle) to dispatch "dpms off".
+        -- Powering down DisplayPort links (D3) causes the VLI USB-C MST hub to drop
+        -- its virtual sink IDs (nvidia-modeset displayId 0x4000/0x8000 invalid),
+        -- which stalls subsequent atomic KMS wakeup across all monitors (including
+        -- eDP-1) and leaves the USB-C hub unresponsive until physically replugged.
         mouse_move_enables_dpms      = true,
         key_press_enables_dpms       = true,
 

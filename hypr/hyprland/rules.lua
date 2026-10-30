@@ -184,6 +184,9 @@ tagged_rule(float_tag, {
     { class = "PandoraLauncher",    title = "Minecraft Game Output" },
 })
 
+-- Telegram's OverlayWidget reads (0, 0) for window geometry on Wayland and passes the primary wl_output to xdg_toplevel.set_fullscreen
+hl.window_rule({ match = { class = "org.telegram.desktop" }, suppress_event = "fullscreenoutput" })
+
 
 -------------------------
 ---- Tag definitions ----

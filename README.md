@@ -132,9 +132,9 @@ You can find more information on configuring the shell and the CLI in their resp
 
 ### Launcher
 
-| Keybind                   | Action        |
-| ------------------------- | ------------- |
-| `Super` (press & release) | Open launcher |
+| Keybind                               | Action        |
+| ------------------------------------- | ------------- |
+| `Super` (press & release), `Super + D` | Open launcher |
 
 ---
 

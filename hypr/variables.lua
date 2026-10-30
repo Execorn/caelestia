@@ -136,7 +136,7 @@ return {
     kbVolumeMute               = "SUPER + SHIFT + M",
 
     -- Misc
-    kbLauncher                 = "SUPER + SUPER_L",
+    kbLauncher                 = { "SUPER + SUPER_L", "SUPER + D" },
     kbSession                  = "SUPER + SHIFT + E",
     kbShowSidebar              = "SUPER + SHIFT + N",
     kbClearNotifs              = "CTRL + ALT + C",
