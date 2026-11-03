@@ -1,6 +1,25 @@
 local vars = require("variables")
 local fn   = require("utils.functions")
 
+local home = os.getenv("HOME") or ""
+local xdg_config = os.getenv("XDG_CONFIG_HOME")
+if not xdg_config or xdg_config == "" then
+    xdg_config = home .. "/.config"
+end
+local volume_script = xdg_config .. "/hypr/scripts/volume_control.sh"
+local vf = io.open(volume_script, "r")
+if vf then
+    vf:close()
+else
+    local fallback = home .. "/scripts/volume_control.sh"
+    local ff = io.open(fallback, "r")
+    if ff then
+        ff:close()
+        volume_script = fallback
+    end
+end
+
+
 
 -- Flags
 local locked           = { locked = true }
@@ -197,16 +216,16 @@ create_bind({ vars.kbMediaPrev, "XF86AudioPrev" }, hl.dsp.global("caelestia:medi
 create_bind({ vars.kbMediaStop, "XF86AudioStop" }, hl.dsp.global("caelestia:mediaStop"), locked)
 
 -- Volume
-create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh mute"), locked)
+create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd(volume_script .. " mute"), locked)
 create_bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), locked)
 create_bind(
     "XF86AudioRaiseVolume",
-    hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh up"),
+    hl.dsp.exec_cmd(volume_script .. " up"),
     locked_repeating
 )
 create_bind(
     "XF86AudioLowerVolume",
-    hl.dsp.exec_cmd("/home/execorn/scripts/volume_control.sh down"),
+    hl.dsp.exec_cmd(volume_script .. " down"),
     locked_repeating
 )
 

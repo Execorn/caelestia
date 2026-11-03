@@ -249,3 +249,12 @@ dest = "$XDG_CONFIG_HOME/uwsm"
 [[components]]
 name = "zen"
 packages = ["zen-browser-bin"]
+
+[[components]]
+name = "wwal"
+packages = ["wwal-bin"]
+
+[[components]]
+name = "alacritty"
+packages = ["alacritty"]
+

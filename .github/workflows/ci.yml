@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Syntax & Configuration Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lua5.4 fish jq python3
+
+      - name: Validate Lua syntax
+        run: |
+          echo "Validating Lua syntax..."
+          find . -name "*.lua" -print0 | xargs -0 -r luac -p
+          echo "All Lua files passed syntax validation."
+
+      - name: Validate Fish script syntax
+        run: |
+          echo "Validating Fish script syntax..."
+          find . -name "*.fish" -print0 | xargs -0 -r fish -n
+          echo "All Fish scripts passed syntax validation."
+
+      - name: Validate Shell script syntax
+        run: |
+          echo "Validating Shell scripts..."
+          find . -name "*.sh" -print0 | xargs -0 -r bash -n
+          echo "All Shell scripts passed syntax validation."
+
+      - name: Validate Manifest TOML
+        run: |
+          python3 -c "import tomllib; tomllib.load(open('manifest.toml', 'rb'))"
+          echo "manifest.toml is valid TOML."
